@@ -1,6 +1,7 @@
 import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/core/error/failures.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:clean_code_app/features/auth/data/models/user_model.dart';
 import 'package:clean_code_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/src/either.dart';
 
@@ -10,14 +11,14 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, String>> signInWithEmailAndPassword(
+  Future<Either<Failure, UserModel>> signInWithEmailAndPassword(
       {required String email, required String password}) {
     // TODO: implement signInWithEmailAndPassword
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailAndPassword(
+  Future<Either<Failure, UserModel>> signUpWithEmailAndPassword(
       {required String name,
       required String email,
       required String password}) async {

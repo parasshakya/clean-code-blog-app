@@ -1,0 +1,8 @@
+import 'package:clean_code_app/features/auth/domain/entities/user.dart';
+
+class UserModel extends User {
+  UserModel({required super.id, required super.name, required super.email});
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      UserModel(id: json["_id"], name: json["username"], email: json["email"]);
+}

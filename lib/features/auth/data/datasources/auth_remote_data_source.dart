@@ -1,11 +1,12 @@
 import "package:clean_code_app/core/error/exceptions.dart";
+import "package:clean_code_app/features/auth/data/models/user_model.dart";
 import "package:dio/dio.dart";
 
 abstract interface class AuthRemoteDataSource {
-  Future<String> signUpWithEmailAndPassword(
+  Future<UserModel> signUpWithEmailAndPassword(
       {required String name, required String password, required String email});
 
-  Future<String> signInWithEmailAndPassword(
+  Future<UserModel> signInWithEmailAndPassword(
       {required String password, required String email});
 }
 
@@ -15,14 +16,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<String> signInWithEmailAndPassword(
+  Future<UserModel> signInWithEmailAndPassword(
       {required String password, required String email}) {
     // TODO: implement signInWithEmailAndPassword
     throw UnimplementedError();
   }
 
   @override
-  Future<String> signUpWithEmailAndPassword(
+  Future<UserModel> signUpWithEmailAndPassword(
       {required String name,
       required String password,
       required String email}) async {
@@ -30,7 +31,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post("/auth/signup",
           data: {"username": name, "email": email, "password": password});
       if (response.statusCode == 200) {
-        return response.data["data"]["_id"];
+        final data = response.data["data"] as Map<String, dynamic>;
+        return UserModel.fromJson(data);
       } else {
         throw ServerException(message: "Failed to sign up");
       }
