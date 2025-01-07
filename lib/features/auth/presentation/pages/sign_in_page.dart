@@ -5,7 +5,7 @@ import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_code_app/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:clean_code_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:clean_code_app/features/auth/presentation/widgets/auth_gradient_button.dart';
-import 'package:clean_code_app/features/blog/presentation/pages/home_page.dart';
+import 'package:clean_code_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,10 +40,10 @@ class _SignInPageState extends State<SignInPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             }
-            if (state is AuthSuccess) {
-              Navigator.of(context)
-                  .pushAndRemoveUntil(HomePage.route(), (route) => false);
-            }
+            // if (state is AuthSuccess) {
+            //   Navigator.of(context)
+            //       .pushAndRemoveUntil(HomePage.route(), (route) => false);
+            // }
           },
           builder: (context, state) {
             if (state is AuthLoadInProgress) {

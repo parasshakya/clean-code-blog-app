@@ -2,10 +2,10 @@ import 'package:clean_code_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:clean_code_app/core/theme/theme.dart';
 import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_code_app/features/auth/presentation/pages/sign_in_page.dart';
+import 'package:clean_code_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:clean_code_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,18 +40,12 @@ class _MainAppState extends State<MainApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.darkThemeMode,
         title: "Blog App",
-        home: BlocSelector<AppUserCubit, AppUserState, bool>(
-          selector: (state) {
-            return state is AppUserLoggedIn;
-          },
-          builder: (context, isLoggedIn) {
-            if (isLoggedIn) {
-              return const Scaffold(
-                body: Center(
-                  child: Text("Logged in"),
-                ),
-              );
+        home: BlocBuilder<AppUserCubit, AppUserState>(
+          builder: (context, state) {
+            if (state is AppUserLoggedIn) {
+              return const BlogPage();
             }
+
             return const SignInPage();
           },
         ));
