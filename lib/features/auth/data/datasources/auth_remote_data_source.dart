@@ -17,9 +17,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel> signInWithEmailAndPassword(
-      {required String password, required String email}) {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
+      {required String password, required String email}) async {
+    try {
+      final response = await dio
+          .post("/auth/login", data: {"email": email, "password": password});
+      if (response.statusCode == 200) {
+        final data = response.data["data"]["userData"] as Map<String, dynamic>;
+        return UserModel.fromJson(data);
+      } else {
+        throw ServerException(message: "Failed to sign up");
+      }
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
@@ -28,7 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       required String password,
       required String email}) async {
     try {
-      final response = await dio.post("/auth/signup",
+      final response = await dio.post("/auth/signUp",
           data: {"username": name, "email": email, "password": password});
       if (response.statusCode == 200) {
         final data = response.data["data"] as Map<String, dynamic>;
