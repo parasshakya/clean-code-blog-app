@@ -50,6 +50,11 @@ class _BlogPageState extends State<BlogPage> {
           if (state is BlogsGetAllLoadInProgress) {
             return const Loader();
           }
+          if (state is BlogsGetAllFailure) {
+            return const Center(
+              child: Text("Failed to load blogs, Please try again later."),
+            );
+          }
           if (state is BlogsGetAllSuccess) {
             return ListView.builder(
                 itemCount: state.blogs.length,
@@ -70,7 +75,7 @@ class _BlogPageState extends State<BlogPage> {
                   );
                 });
           }
-          return const SizedBox.shrink();
+          return const Text("NO STATE FOUND");
         },
       ),
     );

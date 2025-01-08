@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clean_code_app/core/common/models/user_model.dart';
 import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/features/blog/data/models/blog_model.dart';
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:dio/dio.dart';
 abstract interface class BlogRemoteDataSource {
   Future<BlogModel> uploadBlog(BlogModel blog, File file);
   Future<List<BlogModel>> getAllBlogs();
+  Future<UserModel> getBlogPoster(String userId);
 }
 
 class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
@@ -42,6 +44,17 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
       final response = await dio.get("/blogs");
       final data = response.data["data"] as List;
       return data.map((e) => BlogModel.fromJson(e)).toList();
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> getBlogPoster(String userId) async {
+    try {
+      final response = await dio.get('/users/$userId');
+      final data = response.data["data"];
+      return UserModel.fromJson(data);
     } catch (e) {
       throw ServerException(message: e.toString());
     }

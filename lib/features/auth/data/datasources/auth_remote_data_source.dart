@@ -1,5 +1,5 @@
 import "package:clean_code_app/core/error/exceptions.dart";
-import "package:clean_code_app/features/auth/data/models/user_model.dart";
+import "package:clean_code_app/core/common/models/user_model.dart";
 import "package:dio/dio.dart";
 
 abstract interface class AuthRemoteDataSource {

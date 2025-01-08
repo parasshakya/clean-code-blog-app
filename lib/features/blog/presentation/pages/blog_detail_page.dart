@@ -1,13 +1,26 @@
+import 'package:clean_code_app/core/common/widgets/loader.dart';
+import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/blog/domain/entities/blog.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:clean_code_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BlogDetailPage extends StatelessWidget {
+class BlogDetailPage extends StatefulWidget {
   static route(Blog blog) =>
       MaterialPageRoute(builder: (_) => BlogDetailPage(blog: blog));
   final Blog blog;
   const BlogDetailPage({super.key, required this.blog});
+
+  @override
+  State<BlogDetailPage> createState() => _BlogDetailPageState();
+}
+
+class _BlogDetailPageState extends State<BlogDetailPage> {
+  @override
+  void initState() {
+    context.read<BlogBloc>().add(BlogGetPoster(userId: widget.blog.userId));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +28,48 @@ class BlogDetailPage extends StatelessWidget {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(fit: BoxFit.cover, blog.imageUrl)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              blog.title,
-              style: const TextStyle(fontSize: 30),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              blog.content,
-              style: const TextStyle(fontSize: 18),
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child:
+                        Image.network(fit: BoxFit.cover, widget.blog.imageUrl)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              BlocConsumer<BlogBloc, BlogState>(builder: (context, state) {
+                if (state is BlogGetPosterLoadInProgress) {
+                  return const Loader();
+                }
+
+                if (state is BlogGetPosterSuccess) {
+                  return Text(state.poster.name);
+                }
+
+                return const SizedBox();
+              }, listener: (context, state) {
+                if (state is BlogGetPosterFailure) {
+                  showSnackBar(context, "Failed to get poster");
+                }
+              }),
+              Text(
+                widget.blog.title,
+                style: const TextStyle(fontSize: 30),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                widget.blog.content,
+                style: const TextStyle(fontSize: 18),
+              )
+            ],
+          ),
         ),
       ),
     );

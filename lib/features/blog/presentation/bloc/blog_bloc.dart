@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:clean_code_app/core/common/entities/user.dart';
 import 'package:clean_code_app/core/usecase/usecase.dart';
 import 'package:clean_code_app/features/blog/data/models/blog_model.dart';
 import 'package:clean_code_app/features/blog/domain/entities/blog.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/get_all_blogs.dart';
+import 'package:clean_code_app/features/blog/domain/usecases/get_blog_poster.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/upload_blog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,13 +16,19 @@ part 'blog_state.dart';
 class BlogBloc extends Bloc<BlogEvent, BlogState> {
   final UploadBlog _uploadBlog;
   final GetAllBlogs _getAllBlogs;
+  final GetBlogPoster _getBlogPoster;
 
-  BlogBloc({required UploadBlog uploadBlog, required GetAllBlogs getAllBlogs})
+  BlogBloc(
+      {required UploadBlog uploadBlog,
+      required GetAllBlogs getAllBlogs,
+      required GetBlogPoster getBlogPoster})
       : _uploadBlog = uploadBlog,
         _getAllBlogs = getAllBlogs,
+        _getBlogPoster = getBlogPoster,
         super(BlogInitial()) {
     on<BlogUploaded>(_onBlogUploaded);
     on<BlogsGetAll>(_onBlogsFetched);
+    on<BlogGetPoster>(_onBlogGetPoster);
   }
 
   _onBlogUploaded(BlogUploaded event, Emitter<BlogState> emit) async {
@@ -39,5 +47,14 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     response.fold(
         (failure) => emit(BlogsGetAllFailure(errorMessage: failure.message)),
         (blogs) => emit(BlogsGetAllSuccess(blogs: blogs)));
+  }
+
+  _onBlogGetPoster(BlogGetPoster event, Emitter<BlogState> emit) async {
+    emit(BlogGetPosterLoadInProgress());
+    final response =
+        await _getBlogPoster(GetBlogPosterParams(userId: event.userId));
+    response.fold(
+        (failure) => emit(BlogGetPosterFailure(errorMessage: failure.message)),
+        (poster) => emit(BlogGetPosterSuccess(poster: poster)));
   }
 }

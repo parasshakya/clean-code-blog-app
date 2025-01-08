@@ -34,7 +34,8 @@ class BlogCard extends StatelessWidget {
           ),
           Text(
             blog.title,
-            style: const TextStyle(fontSize: 24),
+            style:
+                const TextStyle(fontSize: 24, overflow: TextOverflow.ellipsis),
           ),
           const SizedBox(
             height: 20,

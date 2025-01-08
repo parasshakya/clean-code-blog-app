@@ -12,6 +12,7 @@ import 'package:clean_code_app/features/blog/data/data_sources/blog_remote_data_
 import 'package:clean_code_app/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:clean_code_app/features/blog/domain/repositories/blog_repository.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/get_all_blogs.dart';
+import 'package:clean_code_app/features/blog/domain/usecases/get_blog_poster.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/upload_blog.dart';
 import 'package:clean_code_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:dio/dio.dart';
@@ -73,14 +74,24 @@ void _initAuth() {
 }
 
 void _initBlog() {
+  //datasources
   serviceLocator
     ..registerFactory<BlogRemoteDataSource>(
         () => BlogRemoteDataSourceImpl(dio: serviceLocator()))
+
+    //repositories
     ..registerFactory<BlogRepository>(
         () => BlogRepositoryImp(remoteDataSource: serviceLocator()))
+
+    //usecases
     ..registerFactory<UploadBlog>(
         () => UploadBlog(blogRepository: serviceLocator()))
     ..registerFactory(() => GetAllBlogs(blogRepository: serviceLocator()))
-    ..registerLazySingleton<BlogBloc>(() =>
-        BlogBloc(uploadBlog: serviceLocator(), getAllBlogs: serviceLocator()));
+    ..registerFactory(() => GetBlogPoster(blogRepository: serviceLocator()))
+
+    //bloc
+    ..registerLazySingleton<BlogBloc>(() => BlogBloc(
+        uploadBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
+        getBlogPoster: serviceLocator()));
 }

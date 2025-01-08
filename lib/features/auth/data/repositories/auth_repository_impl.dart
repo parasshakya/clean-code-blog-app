@@ -3,7 +3,7 @@ import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/core/error/failures.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:clean_code_app/features/auth/data/models/user_model.dart';
+import 'package:clean_code_app/core/common/models/user_model.dart';
 import 'package:clean_code_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 

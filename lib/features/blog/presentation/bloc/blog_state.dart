@@ -30,3 +30,17 @@ final class BlogsGetAllSuccess extends BlogState {
 
   BlogsGetAllSuccess({required this.blogs});
 }
+
+final class BlogGetPosterSuccess extends BlogState {
+  final User poster;
+
+  BlogGetPosterSuccess({required this.poster});
+}
+
+final class BlogGetPosterFailure extends BlogState {
+  final String errorMessage;
+
+  BlogGetPosterFailure({required this.errorMessage});
+}
+
+final class BlogGetPosterLoadInProgress extends BlogState {}

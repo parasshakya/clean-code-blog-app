@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:clean_code_app/core/common/entities/user.dart';
+import 'package:clean_code_app/core/common/models/user_model.dart';
+import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/core/error/failures.dart';
 import 'package:clean_code_app/features/blog/data/data_sources/blog_remote_data_source.dart';
 import 'package:clean_code_app/features/blog/data/models/blog_model.dart';
@@ -26,6 +29,16 @@ class BlogRepositoryImp implements BlogRepository {
   Future<Either<Failure, Blog>> uploadBlog(BlogModel blog, File image) async {
     try {
       final res = await remoteDataSource.uploadBlog(blog, image);
+      return right(res);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> getBlogPoster(String userId) async {
+    try {
+      final res = await remoteDataSource.getBlogPoster(userId);
       return right(res);
     } catch (e) {
       return left(Failure(message: e.toString()));

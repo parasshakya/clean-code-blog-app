@@ -11,3 +11,9 @@ final class BlogUploaded extends BlogEvent {
 }
 
 final class BlogsGetAll extends BlogEvent {}
+
+final class BlogGetPoster extends BlogEvent {
+  final String userId;
+
+  BlogGetPoster({required this.userId});
+}
