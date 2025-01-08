@@ -65,7 +65,10 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
               onPressed: () {
                 uploadBlog();
               },
-              icon: const Icon(Icons.done_outlined))
+              icon: const Icon(
+                Icons.done_outlined,
+                size: 30,
+              ))
         ],
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
