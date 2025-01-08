@@ -70,7 +70,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
-          if (state is BlogFailure) {
+          if (state is BlogUploadFailure) {
             showSnackBar(context, state.errorMessage);
           }
           if (state is BlogUploadSuccess) {
@@ -81,7 +81,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           }
         },
         builder: (context, state) {
-          if (state is BlogLoadInProgress) {
+          if (state is BlogUploadLoadInProgress) {
             return const Loader();
           }
           return SingleChildScrollView(

@@ -7,12 +7,26 @@ final class BlogInitial extends BlogState {}
 
 final class BlogLoadInProgress extends BlogState {}
 
-final class BlogFailure extends BlogState {
+final class BlogsGetAllLoadInProgress extends BlogState {}
+
+final class BlogsGetAllFailure extends BlogState {
   final String errorMessage;
 
-  BlogFailure({required this.errorMessage});
+  BlogsGetAllFailure({required this.errorMessage});
 }
 
 final class BlogUploadSuccess extends BlogState {}
 
-final class BlogSuccess extends BlogState {}
+final class BlogUploadLoadInProgress extends BlogState {}
+
+final class BlogUploadFailure extends BlogState {
+  final String errorMessage;
+
+  BlogUploadFailure({required this.errorMessage});
+}
+
+final class BlogsGetAllSuccess extends BlogState {
+  final List<Blog> blogs;
+
+  BlogsGetAllSuccess({required this.blogs});
+}

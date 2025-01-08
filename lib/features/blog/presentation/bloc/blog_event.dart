@@ -10,4 +10,4 @@ final class BlogUploaded extends BlogEvent {
   BlogUploaded({required this.blog, required this.image});
 }
 
-final class BlogLoaded extends BlogEvent {}
+final class BlogsGetAll extends BlogEvent {}

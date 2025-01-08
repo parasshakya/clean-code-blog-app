@@ -40,7 +40,7 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   Future<List<BlogModel>> getAllBlogs() async {
     try {
       final response = await dio.get("/blogs");
-      final data = response.data["data"] as List<Map<String, dynamic>>;
+      final data = response.data["data"] as List;
       return data.map((e) => BlogModel.fromJson(e)).toList();
     } catch (e) {
       throw ServerException(message: e.toString());
