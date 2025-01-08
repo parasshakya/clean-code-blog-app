@@ -8,9 +8,13 @@ import 'package:clean_code_app/features/auth/domain/usecases/current_user.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/user_login.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:clean_code_app/features/blog/data/data_sources/blog_remote_data_source.dart';
+import 'package:clean_code_app/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:clean_code_app/features/blog/domain/repositories/blog_repository.dart';
+import 'package:clean_code_app/features/blog/domain/usecases/upload_blog.dart';
+import 'package:clean_code_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -39,6 +43,8 @@ Future<void> initDependencies() async {
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 
   _initAuth();
+
+  _initBlog();
 }
 
 void _initAuth() {
@@ -63,4 +69,16 @@ void _initAuth() {
         userLogin: serviceLocator(),
         appUserCubit: serviceLocator(),
         currentUser: serviceLocator()));
+}
+
+void _initBlog() {
+  serviceLocator
+    ..registerFactory<BlogRemoteDataSource>(
+        () => BlogRemoteDataSourceImpl(dio: serviceLocator()))
+    ..registerFactory<BlogRepository>(
+        () => BlogRepositoryImp(remoteDataSource: serviceLocator()))
+    ..registerFactory<UploadBlog>(
+        () => UploadBlog(blogRepository: serviceLocator()))
+    ..registerLazySingleton<BlogBloc>(
+        () => BlogBloc(uploadBlog: serviceLocator()));
 }

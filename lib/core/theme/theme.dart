@@ -11,7 +11,9 @@ class AppTheme {
       chipTheme: const ChipThemeData(
           color: MaterialStatePropertyAll(AppPallete.backgroundColor)),
       inputDecorationTheme: InputDecorationTheme(
+          border: _border(),
           contentPadding: const EdgeInsets.all(27),
           focusedBorder: _border(AppPallete.gradient2),
-          enabledBorder: _border()));
+          enabledBorder: _border(),
+          errorBorder: _border(AppPallete.errorColor)));
 }
