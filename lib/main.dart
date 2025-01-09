@@ -5,7 +5,7 @@ import 'package:clean_code_app/features/auth/presentation/pages/sign_in_page.dar
 import 'package:clean_code_app/features/blog/presentation/blocs/add_new_blog/add_new_blog_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blog_detail/blog_detail_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blogs/blogs_bloc.dart';
-import 'package:clean_code_app/features/blog/presentation/pages/blog_page.dart';
+import 'package:clean_code_app/features/blog/presentation/pages/blogs_page.dart';
 import 'package:clean_code_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +49,7 @@ class _MainAppState extends State<MainApp> {
         home: BlocBuilder<AppUserCubit, AppUserState>(
           builder: (context, state) {
             if (state is AppUserLoggedIn) {
-              return const BlogPage();
+              return const BlogsPage();
             }
 
             return const SignInPage();

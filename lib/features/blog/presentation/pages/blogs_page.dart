@@ -8,15 +8,15 @@ import 'package:clean_code_app/features/blog/presentation/widgets/blog_card.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BlogPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (_) => const BlogPage());
-  const BlogPage({super.key});
+class BlogsPage extends StatefulWidget {
+  static route() => MaterialPageRoute(builder: (_) => const BlogsPage());
+  const BlogsPage({super.key});
 
   @override
-  State<BlogPage> createState() => _BlogPageState();
+  State<BlogsPage> createState() => _BlogsPageState();
 }
 
-class _BlogPageState extends State<BlogPage> {
+class _BlogsPageState extends State<BlogsPage> {
   @override
   void initState() {
     context.read<BlogsBloc>().add(BlogsFetched());

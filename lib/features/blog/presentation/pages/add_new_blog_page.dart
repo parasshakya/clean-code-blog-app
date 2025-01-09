@@ -8,7 +8,7 @@ import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_code_app/features/blog/data/models/blog_model.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/add_new_blog/add_new_blog_bloc.dart';
-import 'package:clean_code_app/features/blog/presentation/pages/blog_page.dart';
+import 'package:clean_code_app/features/blog/presentation/pages/blogs_page.dart';
 import 'package:clean_code_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -79,10 +79,10 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             showSnackBar(context, state.errorMessage);
           }
           if (state is AddNewBlogSuccess) {
-            // Navigator.of(context).pushAndRemoveUntil(
-            //   BlogPage.route(),
-            //   (route) => false,
-            // );
+            Navigator.of(context).pushAndRemoveUntil(
+              BlogsPage.route(),
+              (route) => false,
+            );
           }
         },
         builder: (context, state) {
