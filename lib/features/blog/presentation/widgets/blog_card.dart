@@ -20,6 +20,7 @@ class BlogCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 ...blog.topics.map((e) => Padding(
