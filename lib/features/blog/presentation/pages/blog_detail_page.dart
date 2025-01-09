@@ -1,7 +1,7 @@
 import 'package:clean_code_app/core/common/widgets/loader.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/blog/domain/entities/blog.dart';
-import 'package:clean_code_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:clean_code_app/features/blog/presentation/blocs/blog_detail/blog_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +18,9 @@ class BlogDetailPage extends StatefulWidget {
 class _BlogDetailPageState extends State<BlogDetailPage> {
   @override
   void initState() {
-    context.read<BlogBloc>().add(BlogGetPoster(userId: widget.blog.userId));
+    context
+        .read<BlogDetailBloc>()
+        .add(BlogDetailPosterFetched(userId: widget.blog.userId));
     super.initState();
   }
 
@@ -42,18 +44,19 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
               const SizedBox(
                 height: 20,
               ),
-              BlocConsumer<BlogBloc, BlogState>(builder: (context, state) {
-                if (state is BlogGetPosterLoadInProgress) {
+              BlocConsumer<BlogDetailBloc, BlogDetailState>(
+                  builder: (context, state) {
+                if (state is BlogDetailGetPosterLoadInProgress) {
                   return const Loader();
                 }
 
-                if (state is BlogGetPosterSuccess) {
+                if (state is BlogDetailGetPosterSuccess) {
                   return Text(state.poster.name);
                 }
 
                 return const SizedBox();
               }, listener: (context, state) {
-                if (state is BlogGetPosterFailure) {
+                if (state is BlogDetailGetPosterFailure) {
                   showSnackBar(context, "Failed to get poster");
                 }
               }),

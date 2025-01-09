@@ -7,7 +7,7 @@ import 'package:clean_code_app/core/utils/pick_image.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_code_app/features/blog/data/models/blog_model.dart';
-import 'package:clean_code_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:clean_code_app/features/blog/presentation/blocs/add_new_blog/add_new_blog_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:clean_code_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -51,7 +51,9 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           imageUrl: "",
           topics: selectedTopics,
           userId: userId);
-      context.read<BlogBloc>().add(BlogUploaded(blog: blog, image: image!));
+      context
+          .read<AddNewBlogBloc>()
+          .add(AddNewBlogUploaded(blog: blog, image: image!));
     }
   }
 
@@ -71,20 +73,20 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
               ))
         ],
       ),
-      body: BlocConsumer<BlogBloc, BlogState>(
+      body: BlocConsumer<AddNewBlogBloc, AddNewBlogState>(
         listener: (context, state) {
-          if (state is BlogUploadFailure) {
+          if (state is AddNewBlogFailure) {
             showSnackBar(context, state.errorMessage);
           }
-          if (state is BlogUploadSuccess) {
-            Navigator.of(context).pushAndRemoveUntil(
-              BlogPage.route(),
-              (route) => false,
-            );
+          if (state is AddNewBlogSuccess) {
+            // Navigator.of(context).pushAndRemoveUntil(
+            //   BlogPage.route(),
+            //   (route) => false,
+            // );
           }
         },
         builder: (context, state) {
-          if (state is BlogUploadLoadInProgress) {
+          if (state is AddNewBlogLoadInProgress) {
             return const Loader();
           }
           return SingleChildScrollView(
