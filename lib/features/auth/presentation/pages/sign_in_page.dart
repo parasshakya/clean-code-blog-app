@@ -40,68 +40,69 @@ class _SignInPageState extends State<SignInPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             }
-            // if (state is AuthSuccess) {
-            //   Navigator.of(context)
-            //       .pushAndRemoveUntil(HomePage.route(), (route) => false);
-            // }
+            if (state is AuthSuccess) {
+              Navigator.of(context)
+                  .pushAndRemoveUntil(BlogsPage.route(), (route) => false);
+            }
           },
           builder: (context, state) {
             if (state is AuthLoadInProgress) {
               return const Loader();
             }
-            return Form(
-              key: formkey,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Sign In.",
-                      style: TextStyle(fontSize: 50),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    AuthField(
-                      hintText: "Email",
-                      controller: emailController,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    AuthField(
-                      hintText: "Password",
-                      controller: passwordController,
-                      isObscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    AuthGradientButton(
-                      onPressed: () {
-                        context.read<AuthBloc>().add(AuthLoggedIn(
-                            email: emailController.text.trim(),
-                            password: passwordController.text.trim()));
-                      },
-                      buttonText: "Sign in",
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(SignUpPage.route());
-                      },
-                      child: RichText(
-                          text: const TextSpan(
-                              text: "Don't have an account? ",
-                              children: [
-                            TextSpan(
-                                text: "Sign up",
-                                style: TextStyle(color: AppPallete.gradient2))
-                          ])),
-                    )
-                  ],
+            return Center(
+              child: Form(
+                key: formkey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Sign In.",
+                        style: TextStyle(fontSize: 50),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      AuthField(
+                        hintText: "Email",
+                        controller: emailController,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      AuthField(
+                        hintText: "Password",
+                        controller: passwordController,
+                        isObscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      AuthGradientButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(AuthLoggedIn(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim()));
+                        },
+                        buttonText: "Sign in",
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(SignUpPage.route());
+                        },
+                        child: RichText(
+                            text: const TextSpan(
+                                text: "Don't have an account? ",
+                                children: [
+                              TextSpan(
+                                  text: "Sign up",
+                                  style: TextStyle(color: AppPallete.gradient2))
+                            ])),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
