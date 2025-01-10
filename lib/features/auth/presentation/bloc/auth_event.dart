@@ -19,4 +19,10 @@ final class AuthLoggedIn extends AuthEvent {
   AuthLoggedIn({required this.email, required this.password});
 }
 
+final class AuthLoggedOut extends AuthEvent {
+  final String userId;
+
+  AuthLoggedOut({required this.userId});
+}
+
 final class AuthIsUserLoggedIn extends AuthEvent {}

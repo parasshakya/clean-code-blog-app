@@ -1,6 +1,8 @@
+import 'package:clean_code_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:clean_code_app/core/common/widgets/loader.dart';
 import 'package:clean_code_app/core/theme/app_pallete.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
+import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blogs/blogs_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/pages/add_new_blog_page.dart';
 import 'package:clean_code_app/features/blog/presentation/pages/blog_detail_page.dart';
@@ -29,6 +31,14 @@ class _BlogsPageState extends State<BlogsPage> {
       appBar: AppBar(
         title: const Text("Blog App"),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            final currentUserId =
+                (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
+            context.read<AuthBloc>().add(AuthLoggedOut(userId: currentUserId));
+          },
+          icon: const Icon(Icons.logout),
+        ),
         actions: [
           IconButton(
               onPressed: () {

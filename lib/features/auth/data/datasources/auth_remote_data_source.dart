@@ -1,5 +1,6 @@
 import "package:clean_code_app/core/error/exceptions.dart";
 import "package:clean_code_app/core/common/models/user_model.dart";
+import "package:clean_code_app/core/success/success.dart";
 import "package:dio/dio.dart";
 
 abstract interface class AuthRemoteDataSource {
@@ -8,6 +9,8 @@ abstract interface class AuthRemoteDataSource {
 
   Future<UserModel> signInWithEmailAndPassword(
       {required String password, required String email});
+
+  Future<Success> signOut(String userId);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -46,6 +49,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else {
         throw ServerException(message: "Failed to sign up");
       }
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<Success> signOut(String userId) async {
+    try {
+      await dio.post("/auth/logout", data: {"userId": userId});
+      return Success();
     } catch (e) {
       throw ServerException(message: e.toString());
     }

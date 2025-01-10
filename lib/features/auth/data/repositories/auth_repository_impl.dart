@@ -1,6 +1,7 @@
 import 'package:clean_code_app/core/common/entities/user.dart';
 import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/core/error/failures.dart';
+import 'package:clean_code_app/core/success/success.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:clean_code_app/core/common/models/user_model.dart';
@@ -51,6 +52,26 @@ class AuthRepositoryImpl implements AuthRepository {
         return left(Failure(message: "User not logged in"));
       }
       return right(user);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> signOut(String userId) async {
+    try {
+      await remoteDataSource.signOut(userId);
+      return right(Success());
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> deleteUserDataFromLocalStorage() async {
+    try {
+      await localDataSource.deleteUserData();
+      return right(Success());
     } catch (e) {
       return left(Failure(message: e.toString()));
     }

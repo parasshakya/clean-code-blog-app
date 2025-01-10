@@ -5,6 +5,8 @@ import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_s
 import 'package:clean_code_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:clean_code_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/current_user.dart';
+import 'package:clean_code_app/features/auth/domain/usecases/delete_user_data_from_local.dart';
+import 'package:clean_code_app/features/auth/domain/usecases/sign_out.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/user_login.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -66,13 +68,18 @@ void _initAuth() {
     ..registerFactory(() => UserSignUp(authRepository: serviceLocator()))
     ..registerFactory(() => UserLogin(authRepository: serviceLocator()))
     ..registerFactory(() => CurrentUser(authRepository: serviceLocator()))
+    ..registerFactory(() => SignOut(authRepository: serviceLocator()))
+    ..registerFactory(
+        () => DeleteUserDataFromLocalStorage(authRepository: serviceLocator()))
 
     //Register Bloc
     ..registerLazySingleton(() => AuthBloc(
+        signOut: serviceLocator(),
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         appUserCubit: serviceLocator(),
-        currentUser: serviceLocator()));
+        currentUser: serviceLocator(),
+        deleteUserDataFromLocalStorage: serviceLocator()));
 }
 
 void _initBlog() {
