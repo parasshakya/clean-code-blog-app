@@ -30,48 +30,50 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 250,
-                width: double.infinity,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child:
-                        Image.network(fit: BoxFit.cover, widget.blog.imageUrl)),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              BlocConsumer<BlogDetailBloc, BlogDetailState>(
-                  builder: (context, state) {
-                if (state is BlogDetailGetPosterLoadInProgress) {
-                  return const Loader();
-                }
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                          fit: BoxFit.cover, widget.blog.imageUrl)),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                BlocConsumer<BlogDetailBloc, BlogDetailState>(
+                    builder: (context, state) {
+                  if (state is BlogDetailGetPosterLoadInProgress) {
+                    return const Loader();
+                  }
 
-                if (state is BlogDetailGetPosterSuccess) {
-                  return Text(state.poster.name);
-                }
+                  if (state is BlogDetailGetPosterSuccess) {
+                    return Text(state.poster.name);
+                  }
 
-                return const SizedBox();
-              }, listener: (context, state) {
-                if (state is BlogDetailGetPosterFailure) {
-                  showSnackBar(context, "Failed to get poster");
-                }
-              }),
-              Text(
-                widget.blog.title,
-                style: const TextStyle(fontSize: 30),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                widget.blog.content,
-                style: const TextStyle(fontSize: 18),
-              )
-            ],
+                  return const SizedBox();
+                }, listener: (context, state) {
+                  if (state is BlogDetailGetPosterFailure) {
+                    showSnackBar(context, "Failed to get poster");
+                  }
+                }),
+                Text(
+                  widget.blog.title,
+                  style: const TextStyle(fontSize: 30),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  widget.blog.content,
+                  style: const TextStyle(fontSize: 18),
+                )
+              ],
+            ),
           ),
         ),
       ),
