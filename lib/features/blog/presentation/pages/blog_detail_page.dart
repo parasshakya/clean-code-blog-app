@@ -1,4 +1,4 @@
-import 'package:clean_code_app/core/common/widgets/loader.dart';
+import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/blog/domain/entities/blog.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blog_detail/blog_detail_bloc.dart';

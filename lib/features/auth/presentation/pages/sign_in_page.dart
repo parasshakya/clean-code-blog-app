@@ -1,4 +1,4 @@
-import 'package:clean_code_app/core/common/widgets/loader.dart';
+import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/core/theme/app_pallete.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -79,9 +79,11 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       AuthGradientButton(
                         onPressed: () {
-                          context.read<AuthBloc>().add(AuthLoggedIn(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim()));
+                          if (formkey.currentState!.validate()) {
+                            context.read<AuthBloc>().add(AuthLoggedIn(
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim()));
+                          }
                         },
                         buttonText: "Sign in",
                       ),

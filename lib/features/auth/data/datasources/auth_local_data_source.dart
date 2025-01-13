@@ -1,4 +1,4 @@
-import 'package:clean_code_app/core/common/models/user_model.dart';
+import 'package:clean_code_app/core/models/user_model.dart';
 import 'package:hive/hive.dart';
 
 abstract interface class AuthLocalDataSource {

@@ -1,10 +1,10 @@
-import 'package:clean_code_app/core/common/entities/user.dart';
+import 'package:clean_code_app/core/entities/user.dart';
 import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/core/error/failures.dart';
 import 'package:clean_code_app/core/success/success.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:clean_code_app/core/common/models/user_model.dart';
+import 'package:clean_code_app/core/models/user_model.dart';
 import 'package:clean_code_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -16,14 +16,14 @@ class AuthRepositoryImpl implements AuthRepository {
       {required this.remoteDataSource, required this.localDataSource});
 
   @override
-  Future<Either<Failure, UserModel>> signInWithEmailAndPassword(
+  Future<Either<Failure, User>> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     return _getUser(() async => await remoteDataSource
         .signInWithEmailAndPassword(password: password, email: email));
   }
 
   @override
-  Future<Either<Failure, UserModel>> signUpWithEmailAndPassword(
+  Future<Either<Failure, User>> signUpWithEmailAndPassword(
       {required String name,
       required String email,
       required String password}) async {
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
             name: name, password: password, email: email));
   }
 
-  Future<Either<Failure, UserModel>> _getUser(
+  Future<Either<Failure, User>> _getUser(
       Future<UserModel> Function() fn) async {
     try {
       final user = await fn();

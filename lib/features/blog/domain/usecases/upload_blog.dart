@@ -18,7 +18,7 @@ class UploadBlog implements UseCase<Blog, UploadBlogParams> {
 }
 
 class UploadBlogParams {
-  final BlogModel blog;
+  final Blog blog;
   final File image;
 
   UploadBlogParams({required this.blog, required this.image});

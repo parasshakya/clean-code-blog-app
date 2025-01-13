@@ -1,5 +1,5 @@
-import 'package:clean_code_app/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:clean_code_app/core/common/entities/user.dart';
+import 'package:clean_code_app/core/cubits/app_user/app_user_cubit.dart';
+import 'package:clean_code_app/core/entities/user.dart';
 import 'package:clean_code_app/core/usecase/usecase.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/current_user.dart';
 import 'package:clean_code_app/features/auth/domain/usecases/delete_user_data_from_local.dart';

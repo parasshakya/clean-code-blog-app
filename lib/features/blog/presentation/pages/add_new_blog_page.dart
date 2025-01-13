@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:clean_code_app/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:clean_code_app/core/common/widgets/loader.dart';
+import 'package:clean_code_app/core/cubits/app_user/app_user_cubit.dart';
+import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/core/theme/app_pallete.dart';
 import 'package:clean_code_app/core/utils/pick_image.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';

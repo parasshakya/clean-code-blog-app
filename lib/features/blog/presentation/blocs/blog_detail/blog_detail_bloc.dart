@@ -1,4 +1,4 @@
-import 'package:clean_code_app/core/common/entities/user.dart';
+import 'package:clean_code_app/core/entities/user.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/get_blog_poster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

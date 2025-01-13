@@ -9,6 +9,7 @@ environment:
 dependencies:
   dio: ^5.7.0
   dotted_border: ^2.1.0
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -18,6 +19,7 @@ dependencies:
   hive_flutter: ^1.1.0
   http: ^1.2.2
   image_picker: ^1.1.2
+  mocktail: ^1.0.4
   path_provider: ^2.1.4
 
 dev_dependencies:

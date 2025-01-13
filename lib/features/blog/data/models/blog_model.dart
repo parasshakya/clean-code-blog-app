@@ -1,7 +1,7 @@
 import 'package:clean_code_app/features/blog/domain/entities/blog.dart';
 
 class BlogModel extends Blog {
-  BlogModel(
+  const BlogModel(
       {required super.id,
       required super.title,
       required super.content,
@@ -26,4 +26,26 @@ class BlogModel extends Blog {
         "topics": topics,
         "userId": userId
       };
+
+  // fromDomain function
+  factory BlogModel.fromDomain(Blog blog) {
+    return BlogModel(
+        id: blog.id,
+        title: blog.title,
+        content: blog.content,
+        imageUrl: blog.imageUrl,
+        topics: blog.topics,
+        userId: blog.userId);
+  }
+
+  // toDomain function
+  Blog toDomain() {
+    return Blog(
+        id: id,
+        title: title,
+        content: content,
+        imageUrl: imageUrl,
+        topics: topics,
+        userId: userId);
+  }
 }

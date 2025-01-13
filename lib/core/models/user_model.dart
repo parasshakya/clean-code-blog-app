@@ -1,4 +1,4 @@
-import 'package:clean_code_app/core/common/entities/user.dart';
+import 'package:clean_code_app/core/entities/user.dart';
 
 class UserModel extends User {
   UserModel({required super.id, required super.name, required super.email});
