@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockBlogRepository extends Mock implements BlogRepository {}
+import 'blog_repository.mock.dart';
 
 void main() {
   late BlogRepository mockBlogRepository;
