@@ -13,41 +13,90 @@ void main() {
   late BlogRepository repository;
   late GetAllBlogs getAllBlogs;
   late List<Blog> blogList;
-  late NoParams noParams;
+  late GetAllBlogsParams getAllBlogsParams;
 
   setUpAll(() {
     repository = MockBlogRepository();
     getAllBlogs = GetAllBlogs(blogRepository: repository);
 
     blogList = [Blog.empty()];
-    noParams = NoParams();
+    getAllBlogsParams = GetAllBlogsParams();
   });
 
-  test(
-      "Given [BlogRepository] when [getAllBlogs] is called then return [List<Blog>]",
-      () async {
-    //Arrange or stub
-    when(() => repository.getAllBlogs())
-        .thenAnswer((invocation) async => Right(blogList));
+  group("Get all blogs", () {
+    test(
+        "Given [BlogRepository] when [getAllBlogs] is called then return [List<Blog>]",
+        () async {
+      //Arrange or stub
+      when(() => repository.getAllBlogs())
+          .thenAnswer((invocation) async => Right(blogList));
 
-    //Act
-    final result = await getAllBlogs(noParams);
+      //Act
+      final result = await getAllBlogs(getAllBlogsParams);
 
-    //Assert
-    expect(result, equals(Right<Failure, List<Blog>>(blogList)));
+      //Assert
+      expect(result, equals(Right<Failure, List<Blog>>(blogList)));
+    });
+
+    test(
+        "Given [BlogRepository] when [getAllBlogs] fails then return [Failure] ",
+        () async {
+      //Arrange or stub
+      final failure = Failure(message: "Failed to get blogs");
+      when(() => repository.getAllBlogs())
+          .thenAnswer((invocation) async => Left(failure));
+
+      //Act
+      final result = await getAllBlogs(getAllBlogsParams);
+
+      //Assert
+      expect(result, equals(Left<Failure, List<Blog>>(failure)));
+    });
   });
 
-  test("Given [BlogRepository] when [getAllBlogs] fails then return [Failure] ",
-      () async {
-    //Arrange or stub
-    final failure = Failure(message: "Failed to get blogs");
-    when(() => repository.getAllBlogs())
-        .thenAnswer((invocation) async => Left(failure));
+  group("Get blogs by filtering based on topic", () {
+    String topic = "Technology";
 
-    //Act
-    final result = await getAllBlogs(noParams);
+    test(
+        "Given [BlogRepository] when [getAllBlogs(topic)] call succeeds then it should return [List<Blog>] on that topic only.  ",
+        () async {
+      //blogs on technology topic
+      const List<Blog> technologyBlogs = [
+        Blog(
+            id: '1',
+            title: 'tech',
+            content: 'tech',
+            imageUrl: '',
+            topics: ['Technology'],
+            userId: '1234'),
+        Blog(
+            id: '2',
+            title: 'tech',
+            content: 'tech',
+            imageUrl: '',
+            topics: ['Technology, Biology, Physics'],
+            userId: '4324'),
+      ];
 
-    //Assert
-    expect(result, equals(Left<Failure, List<Blog>>(failure)));
+      when(() => repository.getAllBlogs(topic: topic))
+          .thenAnswer((invocation) async => const Right(technologyBlogs));
+
+      final result = await getAllBlogs(GetAllBlogsParams(topic: topic));
+
+      expect(result, equals(const Right<Failure, List<Blog>>(technologyBlogs)));
+    });
+
+    test(
+        "Given [BlogRepository] when [getAllBlogs(topic)] call fails then it should return [Failure].",
+        () async {
+      final failure = Failure(message: "failed to load blogs");
+
+      when(() => repository.getAllBlogs(topic: topic))
+          .thenAnswer((invocation) async => Left(failure));
+
+      final result = await getAllBlogs(GetAllBlogsParams(topic: topic));
+
+      expect(result, equals(Left<Failure, List<Blog>>(failure)));
+    });
   });
 }

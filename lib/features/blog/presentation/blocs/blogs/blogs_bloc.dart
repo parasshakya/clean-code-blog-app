@@ -18,7 +18,7 @@ class BlogsBloc extends Bloc<BlogsEvent, BlogsState> {
   }
   _onBlogsFetched(BlogsFetched event, Emitter<BlogsState> emit) async {
     emit(BlogsLoadInProgress());
-    final response = await _getAllBlogs(NoParams());
+    final response = await _getAllBlogs(GetAllBlogsParams(topic: event.topic));
     response.fold(
         (failure) => emit(BlogsFailure(errorMessage: failure.message)),
         (blogs) => emit(BlogsSuccess(blogs: blogs)));

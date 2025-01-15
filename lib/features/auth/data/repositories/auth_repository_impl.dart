@@ -1,8 +1,8 @@
 import 'package:clean_code_app/core/entities/user.dart';
 import 'package:clean_code_app/core/error/exceptions.dart';
 import 'package:clean_code_app/core/error/failures.dart';
+import 'package:clean_code_app/core/local_storage/user_local_data_source.dart';
 import 'package:clean_code_app/core/success/success.dart';
-import 'package:clean_code_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:clean_code_app/core/models/user_model.dart';
 import 'package:clean_code_app/features/auth/domain/repository/auth_repository.dart';
@@ -10,7 +10,7 @@ import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  final AuthLocalDataSource localDataSource;
+  final UserLocalDataSource localDataSource;
 
   AuthRepositoryImpl(
       {required this.remoteDataSource, required this.localDataSource});
@@ -61,6 +61,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, Success>> signOut(String userId) async {
     try {
       await remoteDataSource.signOut(userId);
+      // await localDataSource.deleteTokens();
       return right(Success());
     } catch (e) {
       return left(Failure(message: e.toString()));

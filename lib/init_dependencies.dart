@@ -1,6 +1,7 @@
 import 'package:clean_code_app/core/cubits/app_user/app_user_cubit.dart';
+import 'package:clean_code_app/core/interceptors/api_interceptor.dart';
+import 'package:clean_code_app/core/local_storage/user_local_data_source.dart';
 import 'package:clean_code_app/core/secrets/app_secrets.dart';
-import 'package:clean_code_app/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:clean_code_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:clean_code_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:clean_code_app/features/auth/domain/repository/auth_repository.dart';
@@ -47,6 +48,10 @@ Future<void> initDependencies() async {
 
   //register core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
+  serviceLocator.registerLazySingleton<UserLocalDataSource>(
+      () => UserLocalDataSourceImpl(box: serviceLocator()));
+  dio.interceptors.add(ApiInterceptor(
+      userLocalDataSource: serviceLocator(), dio: serviceLocator()));
 
   _initAuth();
 
@@ -56,10 +61,9 @@ Future<void> initDependencies() async {
 void _initAuth() {
   //Register Data source
   serviceLocator
-    ..registerFactory<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(dio: serviceLocator()))
-    ..registerFactory<AuthLocalDataSource>(
-        () => AuthLocalDataSourceImpl(box: serviceLocator()))
+    ..registerFactory<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(
+        dio: serviceLocator(), userLocalDataSource: serviceLocator()))
+
     //Register Repository
     ..registerFactory<AuthRepository>(() => AuthRepositoryImpl(
         remoteDataSource: serviceLocator(), localDataSource: serviceLocator()))

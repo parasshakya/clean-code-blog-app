@@ -16,9 +16,9 @@ class BlogRepositoryImp implements BlogRepository {
   BlogRepositoryImp({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<Blog>>> getAllBlogs() async {
+  Future<Either<Failure, List<Blog>>> getAllBlogs({String? topic}) async {
     try {
-      final blogs = await remoteDataSource.getAllBlogs();
+      final blogs = await remoteDataSource.getAllBlogs(topic: topic);
       return right(blogs);
     } catch (e) {
       return left(Failure(message: e.toString()));

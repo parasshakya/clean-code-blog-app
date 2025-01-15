@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 
 abstract interface class BlogRemoteDataSource {
   Future<BlogModel> uploadBlog(BlogModel blog, File file);
-  Future<List<BlogModel>> getAllBlogs();
+  Future<List<BlogModel>> getAllBlogs({String? topic});
   Future<UserModel> getBlogPoster(String userId);
 }
 
@@ -39,9 +39,10 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   }
 
   @override
-  Future<List<BlogModel>> getAllBlogs() async {
+  Future<List<BlogModel>> getAllBlogs({String? topic}) async {
     try {
-      final response = await dio.get("/blogs");
+      final response = await dio.get("/blogs",
+          queryParameters: topic != null ? {"topic": topic} : null);
       final data = response.data["data"] as List;
       return data.map((e) => BlogModel.fromJson(e)).toList();
     } catch (e) {
