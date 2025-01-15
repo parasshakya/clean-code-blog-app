@@ -9,6 +9,7 @@ abstract interface class BlogRemoteDataSource {
   Future<BlogModel> uploadBlog(BlogModel blog, File file);
   Future<List<BlogModel>> getAllBlogs({String? topic});
   Future<UserModel> getBlogPoster(String userId);
+  Future<List<BlogModel>> searchBlogs(String query);
 }
 
 class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
@@ -56,6 +57,18 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
       final response = await dio.get('/users/$userId');
       final data = response.data["data"];
       return UserModel.fromJson(data);
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<BlogModel>> searchBlogs(String query) async {
+    try {
+      final response =
+          await dio.get("/blogs/search", queryParameters: {"query": query});
+      final data = response.data["data"] as List;
+      return data.map((e) => BlogModel.fromJson(e)).toList();
     } catch (e) {
       throw ServerException(message: e.toString());
     }

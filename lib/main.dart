@@ -5,6 +5,7 @@ import 'package:clean_code_app/features/auth/presentation/pages/sign_in_page.dar
 import 'package:clean_code_app/features/blog/presentation/blocs/add_new_blog/add_new_blog_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blog_detail/blog_detail_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blogs/blogs_bloc.dart';
+import 'package:clean_code_app/features/blog/presentation/blocs/search_blogs/search_blogs_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/pages/blogs_page.dart';
 import 'package:clean_code_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,8 @@ void main() async {
       BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
       BlocProvider(create: (_) => serviceLocator<AddNewBlogBloc>()),
       BlocProvider(create: (_) => serviceLocator<BlogDetailBloc>()),
-      BlocProvider(create: (_) => serviceLocator<BlogsBloc>())
+      BlocProvider(create: (_) => serviceLocator<BlogsBloc>()),
+      BlocProvider(create: (_) => serviceLocator<SearchBlogsBloc>())
     ],
     child: const MainApp(),
   ));

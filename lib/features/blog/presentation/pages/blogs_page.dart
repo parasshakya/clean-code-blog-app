@@ -7,6 +7,7 @@ import 'package:clean_code_app/features/auth/presentation/pages/sign_in_page.dar
 import 'package:clean_code_app/features/blog/presentation/blocs/blogs/blogs_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/pages/add_new_blog_page.dart';
 import 'package:clean_code_app/features/blog/presentation/pages/blog_detail_page.dart';
+import 'package:clean_code_app/features/blog/presentation/pages/search_blogs_page.dart';
 import 'package:clean_code_app/features/blog/presentation/widgets/blog_card.dart';
 import 'package:clean_code_app/features/blog/presentation/widgets/drop_down_filter_button.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,14 @@ class _BlogsPageState extends State<BlogsPage> {
             icon: const Icon(Icons.logout),
           ),
           actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(SearchBlogsPage.route());
+                },
+                icon: const Icon(
+                  Icons.search_rounded,
+                  size: 30,
+                )),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(AddNewBlogPage.route());

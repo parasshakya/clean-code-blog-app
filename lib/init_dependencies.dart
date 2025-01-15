@@ -16,10 +16,12 @@ import 'package:clean_code_app/features/blog/data/repositories/blog_repository_i
 import 'package:clean_code_app/features/blog/domain/repositories/blog_repository.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/get_blog_poster.dart';
+import 'package:clean_code_app/features/blog/domain/usecases/search_blogs.dart';
 import 'package:clean_code_app/features/blog/domain/usecases/upload_blog.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/add_new_blog/add_new_blog_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blog_detail/blog_detail_bloc.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/blogs/blogs_bloc.dart';
+import 'package:clean_code_app/features/blog/presentation/blocs/search_blogs/search_blogs_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -101,6 +103,7 @@ void _initBlog() {
         () => UploadBlog(blogRepository: serviceLocator()))
     ..registerFactory(() => GetAllBlogs(blogRepository: serviceLocator()))
     ..registerFactory(() => GetBlogPoster(blogRepository: serviceLocator()))
+    ..registerFactory(() => SearchBlogs(blogRepository: serviceLocator()))
 
     //blocs
     ..registerLazySingleton<AddNewBlogBloc>(() => AddNewBlogBloc(
@@ -111,5 +114,7 @@ void _initBlog() {
         ))
     ..registerLazySingleton<BlogsBloc>(() => BlogsBloc(
           getAllBlogs: serviceLocator(),
-        ));
+        ))
+    ..registerLazySingleton<SearchBlogsBloc>(
+        () => SearchBlogsBloc(searchBlogs: serviceLocator()));
 }
