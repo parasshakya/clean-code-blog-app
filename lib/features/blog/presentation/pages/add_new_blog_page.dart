@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:clean_code_app/core/cubits/app_user/app_user_cubit.dart';
+import 'package:clean_code_app/core/page_transitions/right_to_left_page_route.dart';
 import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/core/theme/app_pallete.dart';
 import 'package:clean_code_app/core/utils/pick_image.dart';
@@ -16,7 +17,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddNewBlogPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (_) => const AddNewBlogPage());
+  static route() => RightToLeftPageRoute(page: const AddNewBlogPage());
   const AddNewBlogPage({super.key});
 
   @override

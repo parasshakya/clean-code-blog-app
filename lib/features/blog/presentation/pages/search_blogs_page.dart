@@ -1,3 +1,4 @@
+import 'package:clean_code_app/core/page_transitions/right_to_left_page_route.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/features/blog/presentation/blocs/search_blogs/search_blogs_bloc.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBlogsPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (_) => const SearchBlogsPage());
+  static route() => RightToLeftPageRoute(page: const SearchBlogsPage());
   const SearchBlogsPage({super.key});
 
   @override

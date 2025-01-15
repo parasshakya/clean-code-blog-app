@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlogDetailPage extends StatefulWidget {
   static route(Blog blog) =>
-      MaterialPageRoute(builder: (_) => BlogDetailPage(blog: blog));
+      MaterialPageRoute(builder: (context) => BlogDetailPage(blog: blog));
   final Blog blog;
   const BlogDetailPage({super.key, required this.blog});
 
@@ -34,13 +34,16 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  height: 250,
-                  width: double.infinity,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                          fit: BoxFit.cover, widget.blog.imageUrl)),
+                Hero(
+                  tag: "blogCard_${widget.blog.id}",
+                  child: SizedBox(
+                    height: 250,
+                    width: double.infinity,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                            fit: BoxFit.cover, widget.blog.imageUrl)),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

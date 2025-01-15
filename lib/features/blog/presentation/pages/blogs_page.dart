@@ -141,13 +141,16 @@ class _BlogsPageState extends State<BlogsPage> {
                                 Navigator.of(context)
                                     .push(BlogDetailPage.route(blog));
                               },
-                              child: BlogCard(
-                                blog: blog,
-                                color: index % 3 == 0
-                                    ? AppPallete.gradient2
-                                    : index % 3 == 1
-                                        ? AppPallete.gradient1
-                                        : AppPallete.gradient3,
+                              child: Hero(
+                                tag: "blogCard_${blog.id}",
+                                child: BlogCard(
+                                  blog: blog,
+                                  color: index % 3 == 0
+                                      ? AppPallete.gradient2
+                                      : index % 3 == 1
+                                          ? AppPallete.gradient1
+                                          : AppPallete.gradient3,
+                                ),
                               ),
                             );
                           }),

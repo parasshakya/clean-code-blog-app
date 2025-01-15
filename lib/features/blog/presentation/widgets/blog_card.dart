@@ -10,42 +10,44 @@ class BlogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(8)),
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ...blog.topics.map((e) => Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Chip(side: null, label: Text(e)),
-                    ))
-              ],
+    return Material(
+      child: Container(
+        height: 200,
+        decoration:
+            BoxDecoration(color: color, borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...blog.topics.map((e) => Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Chip(side: null, label: Text(e)),
+                      ))
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            blog.title,
-            style:
-                const TextStyle(fontSize: 24, overflow: TextOverflow.ellipsis),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            blog.content,
-            style: const TextStyle(overflow: TextOverflow.ellipsis),
-          )
-        ],
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              blog.title,
+              style: const TextStyle(
+                  fontSize: 24, overflow: TextOverflow.ellipsis),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              blog.content,
+              style: const TextStyle(overflow: TextOverflow.ellipsis),
+            )
+          ],
+        ),
       ),
     );
   }
