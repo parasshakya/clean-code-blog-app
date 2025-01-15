@@ -13,9 +13,17 @@ class SearchBlogsPage extends StatefulWidget {
 }
 
 class _SearchBlogsPageState extends State<SearchBlogsPage> {
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+
   @override
   void initState() {
     context.read<SearchBlogsBloc>().add(SearchBlogsCleared());
+    // Automatically focus the search bar and show the keyboard
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _searchFocusNode.requestFocus();
+    });
+
     super.initState();
   }
 
@@ -29,9 +37,13 @@ class _SearchBlogsPageState extends State<SearchBlogsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SearchBar(
-              hintText: "Search for blogs",
-              autoFocus: true,
+            TextField(
+              controller: _searchController,
+              focusNode: _searchFocusNode,
+              decoration: const InputDecoration(
+                hintText: 'Search blogs...',
+                prefixIcon: Icon(Icons.search),
+              ),
               onChanged: (value) {
                 if (value.isEmpty) {
                   context.read<SearchBlogsBloc>().add(SearchBlogsCleared());
