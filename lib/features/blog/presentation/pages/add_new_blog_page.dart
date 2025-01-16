@@ -49,7 +49,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           id: DateTime.now().toString(),
           title: titleController.text.trim(),
           content: contentController.text.trim(),
-          imageUrl: "",
+          imageUrl: "imageUrl",
           topics: selectedTopics,
           userId: userId);
       context
@@ -80,6 +80,8 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             showSnackBar(context, state.errorMessage);
           }
           if (state is AddNewBlogSuccess) {
+            showSnackBar(context, "Blog uploaded successfully");
+
             Navigator.of(context).pushAndRemoveUntil(
               BlogsPage.route(),
               (route) => false,
@@ -90,6 +92,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           if (state is AddNewBlogLoadInProgress) {
             return const Loader();
           }
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),

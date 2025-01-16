@@ -23,7 +23,7 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
       final fileName = image.path.split('/').last;
 
       final blogFormData = FormData.fromMap({
-        ...blog.toJson(),
+        ...blog.toJsonForCreate(),
         "image": await MultipartFile.fromFile(image.path, filename: fileName)
       });
 

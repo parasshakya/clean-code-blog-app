@@ -38,14 +38,29 @@ class BlogModel extends Blog {
         userId: json["userId"]);
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJsonForCreate() {
+    // Validate fields before converting to JSON
+    if (title.isEmpty || content.isEmpty || topics.isEmpty || userId.isEmpty) {
+      throw Exception('Invalid BlogModel: Missing required fields');
+    }
+
+    return {
+      "title": title,
+      "content": content,
+      "imageUrl": imageUrl,
+      "topics": topics,
+      "userId": userId
+    };
+  }
+
+  Map<String, dynamic> toJsonForUpdate() {
     // Validate fields before converting to JSON
     if (id.isEmpty ||
         title.isEmpty ||
         content.isEmpty ||
-        imageUrl.isEmpty ||
         topics.isEmpty ||
-        userId.isEmpty) {
+        userId.isEmpty ||
+        imageUrl.isEmpty) {
       throw Exception('Invalid BlogModel: Missing required fields');
     }
 

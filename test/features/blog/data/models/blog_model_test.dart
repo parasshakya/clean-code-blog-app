@@ -4,9 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   late BlogModel validBlogModel;
-  late Map<String, dynamic> validJson;
-  late Blog validBlogEntity;
 
+  late Blog validBlogEntity;
+  late Map<String, dynamic> validJsonForUpload;
   setUpAll(() {
     validBlogModel = const BlogModel(
         id: "12",
@@ -16,8 +16,7 @@ void main() {
         topics: ["topic"],
         userId: "2312");
 
-    validJson = {
-      "_id": "12",
+    validJsonForUpload = {
       "title": "title",
       "content": "content",
       "imageUrl": "imageUrl",
@@ -64,32 +63,40 @@ void main() {
     });
   });
 
-  group("fromJSON and toJSON Valid cases", () {
+  group("fromJSON and toJSONForCreate Valid cases", () {
     group("fromJSON", () {
       test("should convert valid [JSON] to valid [BlogModel]", () {
         //Arrange
+        final json = {
+          "_id": "12",
+          "title": "title",
+          "content": "content",
+          "imageUrl": "imageUrl",
+          "topics": ["topic"],
+          "userId": "2312"
+        };
 
         //Act
-        final result = BlogModel.fromJson(validJson);
+        final result = BlogModel.fromJson(json);
 
         //Assert
         expect(result, equals(validBlogModel));
       });
     });
-    group("toJSON", () {
+    group("toJSONForCreate for uploading new blog", () {
       test("should convert valid [BlogModel] to valid [JSON]", () {
         //Arrange
 
         //Act
-        final result = validBlogModel.toJson();
+        final result = validBlogModel.toJsonForCreate();
 
         //Assert
-        expect(result, equals(validJson));
+        expect(result, equals(validJsonForUpload));
       });
     });
   });
 
-  group("fromJSON and toJSON Invalid cases", () {
+  group("fromJSON and toJSONForCreate Invalid cases", () {
     group("fromJSON", () {
       test(
           "should throw an Exception when [JSON] with missing [title] is converted to [BlogModel]",
@@ -187,20 +194,7 @@ void main() {
         expect(() => BlogModel.fromJson(json), throwsA(isA<Exception>()));
       });
     });
-    group("toJSON", () {
-      test(
-          "should throw an Exception when [BlogModel] with empty [id] is converted to [JSON]",
-          () {
-        //blog with empty id field
-        const blogModel = BlogModel(
-            id: '',
-            title: 'title',
-            content: 'content',
-            imageUrl: 'imageUrl',
-            topics: ['topics'],
-            userId: '2312');
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
-      });
+    group("toJSONForCreate", () {
       test(
           "should throw an Exception when [BlogModel] with empty [content] is converted to [JSON]",
           () {
@@ -212,7 +206,7 @@ void main() {
             imageUrl: 'imageUrl',
             topics: ['topic'],
             userId: '2312');
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
+        expect(() => blogModel.toJsonForCreate(), throwsA(isA<Exception>()));
       });
 
       test(
@@ -227,22 +221,9 @@ void main() {
             topics: ['topic'],
             userId: '2312');
 
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
+        expect(() => blogModel.toJsonForCreate(), throwsA(isA<Exception>()));
       });
-      test(
-          "should throw an Exception when [BlogModel] with empty [imageUrl] is converted to [JSON]",
-          () {
-        //blog with empty imageUrl field
-        const blogModel = BlogModel(
-            id: '123',
-            title: 'title',
-            content: 'content',
-            imageUrl: '',
-            topics: ['topics'],
-            userId: '2312');
 
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
-      });
       test(
           "should throw an Exception when [BlogModel] with empty [topics] is converted to [JSON]",
           () {
@@ -254,7 +235,7 @@ void main() {
             imageUrl: 'imageUrl',
             topics: [],
             userId: '2312');
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
+        expect(() => blogModel.toJsonForCreate(), throwsA(isA<Exception>()));
       });
       test(
           "should throw an Exception when [BlogModel] with empty [userId] is converted to [JSON]",
@@ -267,7 +248,7 @@ void main() {
             imageUrl: 'imageUrl',
             topics: ['topics'],
             userId: '');
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
+        expect(() => blogModel.toJsonForCreate(), throwsA(isA<Exception>()));
       });
 
       test(
@@ -281,8 +262,32 @@ void main() {
             imageUrl: '',
             topics: [],
             userId: '');
-        expect(() => blogModel.toJson(), throwsA(isA<Exception>()));
+        expect(() => blogModel.toJsonForCreate(), throwsA(isA<Exception>()));
       });
+    });
+  });
+
+  group("Valid cases: For updating blog", () {
+    test("should convert [BlogModel] to [JSON] for updating a blog ", () {
+      const blogModel = BlogModel(
+          id: "12",
+          title: "title",
+          content: "content",
+          imageUrl: "imageUrl",
+          topics: ["topic"],
+          userId: "2312");
+
+      final Map<String, dynamic> json = {
+        "_id": "12",
+        "title": "title",
+        "content": "content",
+        "imageUrl": "imageUrl",
+        "topics": ["topic"],
+        "userId": "2312"
+      };
+      final result = blogModel.toJsonForUpdate();
+
+      expect(result, equals(json));
     });
   });
 }
