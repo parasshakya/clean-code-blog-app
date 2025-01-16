@@ -1,4 +1,5 @@
 import 'package:clean_code_app/core/cubits/app_user/app_user_cubit.dart';
+import 'package:clean_code_app/core/utils/show_alert_dialog.dart';
 import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/core/theme/app_pallete.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
@@ -47,13 +48,17 @@ class _BlogsPageState extends State<BlogsPage> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              final currentUserId =
-                  (context.read<AppUserCubit>().state as AppUserLoggedIn)
-                      .user
-                      .id;
-              context
-                  .read<AuthBloc>()
-                  .add(AuthLoggedOut(userId: currentUserId));
+              showLogoutDialog(context, onConfirm: () {
+                final currentUserId =
+                    (context.read<AppUserCubit>().state as AppUserLoggedIn)
+                        .user
+                        .id;
+                context
+                    .read<AuthBloc>()
+                    .add(AuthLoggedOut(userId: currentUserId));
+              }, onCancel: () {
+                Navigator.of(context).pop();
+              });
             },
             icon: const Icon(Icons.logout),
           ),
