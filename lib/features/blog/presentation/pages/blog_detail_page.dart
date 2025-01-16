@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clean_code_app/core/widgets/loader.dart';
 import 'package:clean_code_app/core/utils/show_snackbar.dart';
 import 'package:clean_code_app/features/blog/domain/entities/blog.dart';
@@ -41,8 +42,14 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
                     width: double.infinity,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                            fit: BoxFit.cover, widget.blog.imageUrl)),
+                        child: CachedNetworkImage(
+                          errorWidget: (context, url, error) =>
+                              const Center(child: Icon(Icons.error)),
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          fit: BoxFit.cover,
+                          imageUrl: widget.blog.imageUrl,
+                        )),
                   ),
                 ),
                 const SizedBox(
