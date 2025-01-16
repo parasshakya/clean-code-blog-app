@@ -9,7 +9,26 @@ class BlogModel extends Blog {
       required super.topics,
       required super.userId});
 
+  // Check for missing keys and throw an exception
   factory BlogModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('_id') ||
+        !json.containsKey('title') ||
+        !json.containsKey('content') ||
+        !json.containsKey('imageUrl') ||
+        !json.containsKey('topics') ||
+        !json.containsKey('userId')) {
+      throw Exception('Invalid Blog JSON: Missing required fields');
+    }
+    // Additional validation to ensure proper data types
+    if (json['_id'] is! String ||
+        json['title'] is! String ||
+        json['content'] is! String ||
+        json['imageUrl'] is! String ||
+        json['topics'] is! List ||
+        json['userId'] is! String) {
+      throw Exception('Invalid Blog JSON: Incorrect data types');
+    }
+
     return BlogModel(
         id: json["_id"],
         title: json["title"],
@@ -19,13 +38,26 @@ class BlogModel extends Blog {
         userId: json["userId"]);
   }
 
-  Map<String, dynamic> toJson() => {
-        "title": title,
-        "content": content,
-        "imageUrl": imageUrl,
-        "topics": topics,
-        "userId": userId
-      };
+  Map<String, dynamic> toJson() {
+    // Validate fields before converting to JSON
+    if (id.isEmpty ||
+        title.isEmpty ||
+        content.isEmpty ||
+        imageUrl.isEmpty ||
+        topics.isEmpty ||
+        userId.isEmpty) {
+      throw Exception('Invalid BlogModel: Missing required fields');
+    }
+
+    return {
+      "_id": id,
+      "title": title,
+      "content": content,
+      "imageUrl": imageUrl,
+      "topics": topics,
+      "userId": userId
+    };
+  }
 
   // fromDomain function
   factory BlogModel.fromDomain(Blog blog) {
